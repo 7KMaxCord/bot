@@ -1,0 +1,14 @@
+{
+  "name": "bot2",
+  "version": "1.0.0",
+  "description": "Outside Shop Bot Powered By ! Max#1081",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "! Max#1081",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
+}
