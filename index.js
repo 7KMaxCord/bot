@@ -19,6 +19,15 @@ for (const file of commandsFiles) {
     client.commands.set(command.name, command);
 }
 
+const commandsFolder = fs.readdirSync("./commands");
+for (const folder of commandsFolder) {
+    const commandsFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith(".js"));
+    for (const file of commandsFiles) {
+        const command = require(`./commands/${folder}/${file}`);
+        client.commands.set(command.name, command);
+    }
+}
+
 client.on("message", message => {
 	const prefix = "!";
     if (!message.content.startsWith(prefix) || message.author.bot) return
