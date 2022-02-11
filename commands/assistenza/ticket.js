@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 //Prima di tutto mandare il messaggio del ticket
 client.on("messageCreate", message => {
     if (message.content == "!comando") {
