@@ -5,5 +5,5 @@ module.exports = {
     description: "Comando di test",
     execute(message, args) {
         message.channel.send("TEST");
-	}
+    }
 }

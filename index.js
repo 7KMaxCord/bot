@@ -1,13 +1,7 @@
-const Discord = require("discord.js")
-const client = new Discord.Client(
-	{ intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES"] }
-)
+const Discord = require('discord.js');
+global.client = new Discord.Client();
 
-client.login(process.env.token)
-
-client.on("ready", () => {
-	console.log("Bot startato con successo!")
-})
+client.login(process.env.token);
 
 const fs = require("fs");
 
@@ -35,14 +29,23 @@ for (const file of eventsFiles) {
 }
 
 client.on("message", message => {
-	const prefix = "!";
+    const prefix = "!";
+
     if (!message.content.startsWith(prefix) || message.author.bot) return
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const command = args.shift().toLowerCase();
 
-	const command = args.shift().toLowerCase();
+    if (!client.commands.has(command) && !client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command))) return
 
-	if(!client.commands.has(command)) return
+    var comando = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command))
 
-	client.commands.get(command).execute(message);
+    if (comando.onlyStaff) {
+        if (!message.member.hasPermission("ADMINISTRATOR")) {
+            message.channel.send("Non hai il permesso di eseguire questo comando")
+            return
+        }
+    }
+
+    comando.execute(message, args);
 })
