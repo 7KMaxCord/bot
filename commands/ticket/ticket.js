@@ -17,7 +17,7 @@ module.exports = {
 
 }
 
-modele.exports = {
+module.exports = {
     name: "apriticket",
     description: "ticket",
     execute(message, messageCreate, args) {
