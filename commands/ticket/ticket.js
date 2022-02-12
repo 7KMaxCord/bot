@@ -14,4 +14,40 @@ module.exports = {
     
             message.channel.send({ content: "Clicca sul bottone per aprire un ticket", components: [row] })
     }
+
+}
+
+modele.exports = {
+    name: "apriticket",
+    description: "ticket",
+    execute(message, messageCreate, args) {
+        if (interaction.customId == "apriTicket") {
+            interaction.deferUpdate()
+            if (interaction.guild.channels.cache.find(canale => canale.topic == `User ID: ${interaction.user.id}`)) {
+                interaction.user.send("Hai gia un ticket aperto").catch(() => { })
+                return
+            }
+            interaction.guild.channels.create(interaction.user.username, {
+                type: "text",
+                topic: `User ID: ${interaction.user.id}`,
+                parent: "idCategoria", //Settare la categoria,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: ["VIEW_CHANNEL"]
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: ["VIEW_CHANNEL"]
+                    },
+                    { //Aggiungere altri "blocchi" se si vogliono dare permessi anche a ruoli o utenti
+                        id: "idRuolo",
+                        allow: ["VIEW_CHANNEL"]
+                    }
+                ]
+            }).then(canale => {
+                canale.send("Grazie per aver aperto un ticket")
+            })
+        }
+    }
 }
